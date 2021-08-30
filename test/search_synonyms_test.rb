@@ -73,6 +73,7 @@ class SearchSynonymsTest < Minitest::Test
   end
 
   def test_reload_synonyms_better
+    skip if Searchkick.opensearch?
     skip unless ENV["ES_PATH"] && !Searchkick.server_below?("7.3.0")
 
     write_synonyms("test,hello")

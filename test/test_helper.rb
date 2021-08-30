@@ -8,7 +8,7 @@ require "active_support/notifications"
 ENV["RACK_ENV"] = "test"
 
 # for reloadable synonyms
-ENV["ES_PATH"] ||= "#{ENV["HOME"]}/elasticsearch/#{ENV["ELASTICSEARCH_VERSION"]}" if ENV["TRAVIS"]
+ENV["ES_PATH"] ||= "#{ENV["HOME"]}/elasticsearch" if ENV["CI"]
 
 $logger = ActiveSupport::Logger.new(ENV["VERBOSE"] ? STDOUT : nil)
 
