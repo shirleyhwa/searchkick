@@ -291,6 +291,11 @@ module Searchkick
     end
 
     # private
+    def conversions_v2_fields
+      @conversions_v2_fields ||= Array(options[:conversions_v2]).map(&:to_s)
+    end
+
+    # private
     def suggest_fields
       @suggest_fields ||= Array(options[:suggest]).map(&:to_s)
     end

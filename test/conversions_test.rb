@@ -16,6 +16,15 @@ class ConversionsTest < Minitest::Test
     assert_equal_scores "tomato", conversions: false
   end
 
+  def test_conversions_v2
+    store [
+      {name: "Tomato A", conversions_v2: {"tomato" => 1}},
+      {name: "Tomato B", conversions_v2: {"tomato" => 2}},
+      {name: "Tomato C", conversions_v2: {"tomato" => 3}}
+    ]
+    assert_order "tomato", ["Tomato C", "Tomato B", "Tomato A"], conversions_v2: [:conversions_v2]
+  end
+
   def test_multiple_conversions
     store [
       {name: "Speaker A", conversions_a: {"speaker" => 1}, conversions_b: {"speaker" => 6}},

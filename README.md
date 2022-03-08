@@ -669,7 +669,7 @@ Add conversion data with:
 class Product < ApplicationRecord
   has_many :searches, class_name: "Searchjoy::Search", as: :convertable
 
-  searchkick conversions: [:conversions] # name of field
+  searchkick conversions_v2: [:conversions] # name of field
 
   def search_data
     {
@@ -2100,6 +2100,38 @@ store.products.reindex(mode: :queue)
 And there’s a [new option](#default-scopes) for models with default scopes.
 
 Check out the [changelog](https://github.com/ankane/searchkick/blob/master/CHANGELOG.md#500-2022-02-21) for the full list of changes.
+
+## Upgrading Conversions
+
+Upgrade conversions without downtime. Add `conversions_v2` to your model and an additional field to `search_data`:
+
+```ruby
+class Product < ApplicationRecord
+  searchkick conversions: [:conversions], conversions_v2: [:conversions_v2]
+
+  def search_data
+    conversions = searches.group(:query).distinct.count(:user_id)
+    {
+      conversions: conversions,
+      conversions_v2: conversions
+    }
+  end
+end
+```
+
+Reindex, then remove `conversions`:
+
+```ruby
+class Product < ApplicationRecord
+  searchkick conversions_v2: [:conversions_v2]
+
+  def search_data
+    {
+      conversions_v2: searches.group(:query).distinct.count(:user_id)
+    }
+  end
+end
+```
 
 ## History
 

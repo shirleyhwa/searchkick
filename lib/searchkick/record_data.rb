@@ -58,6 +58,12 @@ module Searchkick
         end
       end
 
+      index.conversions_v2_fields.each do |conversions_field|
+        unless source[conversions_field] || source[conversions_field.to_sym]
+          source[conversions_field] ||= {}
+        end
+      end
+
       # hack to prevent generator field doesn't exist error
       if !partial_reindex
         index.suggest_fields.each do |field|
