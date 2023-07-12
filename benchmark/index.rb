@@ -102,7 +102,7 @@ end
 if report
   puts report.pretty_print
 end
-
+# test11
 if stats
   puts result.allocations(alias_paths: true).group_by(:sourcefile, :class).to_text
 end
